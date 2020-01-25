@@ -1,6 +1,8 @@
 plugins {
     id("org.jetbrains.kotlin.jvm").version("1.3.21")
+    id("org.jetbrains.kotlin.plugin.allopen").version("1.3.61")
     application
+    groovy
 }
 
 repositories {
@@ -19,9 +21,11 @@ dependencies {
     implementation("org.slf4j:jul-to-slf4j:1.7.25")
     implementation("com.google.inject:guice:4.2.0")
     implementation("com.beust:klaxon:5.0.1")
+    implementation("commons-lang:commons-lang:+")
+    compile("cglib:cglib:2.2")
 
-    testImplementation("org.jetbrains.kotlin:kotlin-test")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
+    testImplementation("org.spockframework:spock-core:1.0-groovy-2.4")
+    testImplementation("org.codehaus.groovy:groovy-all:2.4.12")
 }
 
 application {
@@ -30,4 +34,8 @@ application {
 
 tasks.register("stage") {
     dependsOn("installDist")
+}
+
+allOpen {
+    annotation("theagainagain.OpenForTesting")
 }
