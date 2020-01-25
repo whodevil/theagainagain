@@ -7,6 +7,7 @@ import spark.Filter
 import spark.Request
 import spark.Response
 import spark.Spark
+import theagainagain.configuration.ServiceConfiguration
 
 class WebServiceInitializer @Inject constructor(private val configuration: ServiceConfiguration) {
     fun initialize(setupEndpoints: Runnable) {

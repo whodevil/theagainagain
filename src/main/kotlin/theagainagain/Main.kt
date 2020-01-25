@@ -8,6 +8,7 @@ import com.google.inject.Inject
 import dev.misfitlabs.kotlinguice4.getInstance
 import mu.KotlinLogging
 import org.slf4j.bridge.SLF4JBridgeHandler
+import theagainagain.configuration.ServiceConfiguration
 
 private val logger = KotlinLogging.logger {}
 
