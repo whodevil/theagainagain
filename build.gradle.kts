@@ -27,3 +27,7 @@ dependencies {
 application {
     mainClassName = "theagainagain.MainKt"
 }
+
+tasks.register("stage") {
+    dependsOn("installDist")
+}
