@@ -33,7 +33,7 @@ application {
 }
 
 tasks.register("stage") {
-    dependsOn("installDist")
+    dependsOn("test", "installDist")
 }
 
 allOpen {
