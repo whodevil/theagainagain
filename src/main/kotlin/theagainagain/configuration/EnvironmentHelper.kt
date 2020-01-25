@@ -21,4 +21,13 @@ class EnvironmentHelper @Inject constructor(val env: EnvironmentProvider) {
             value.toLong()
         }
     }
+
+    fun get(key: String, default: Boolean): Boolean {
+        val value = env.get(key)
+        return if(StringUtils.isEmpty(value)) {
+            default
+        }else {
+            value.toBoolean()
+        }
+    }
 }

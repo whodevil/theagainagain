@@ -9,8 +9,8 @@ import mu.KotlinLogging
 import spark.Request
 import spark.Route
 import spark.Spark
-
 private val logger = KotlinLogging.logger {}
+
 
 class WebService @Inject constructor(private val webServiceInitializer: WebServiceInitializer): AbstractIdleService() {
     override fun startUp() {
