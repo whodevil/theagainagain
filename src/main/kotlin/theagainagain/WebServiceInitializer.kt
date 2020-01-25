@@ -3,11 +3,14 @@ package theagainagain
 import com.google.common.collect.Lists
 import com.google.common.net.HttpHeaders
 import com.google.inject.Inject
+import mu.KotlinLogging
 import spark.Filter
 import spark.Request
 import spark.Response
 import spark.Spark
 import theagainagain.configuration.ServiceConfiguration
+
+private val logger = KotlinLogging.logger {}
 
 class WebServiceInitializer @Inject constructor(private val configuration: ServiceConfiguration) {
     fun initialize(setupEndpoints: Runnable) {
@@ -16,6 +19,7 @@ class WebServiceInitializer @Inject constructor(private val configuration: Servi
 
         setupCorsForOptionsHttpMethod()
         Spark.before(Filter { request: Request?, response: Response? ->
+            sslRedirect(request, response)
             setCorsHeaderOnResponse(response)
             applyCsrfProtection(request)
         })
@@ -23,6 +27,15 @@ class WebServiceInitializer @Inject constructor(private val configuration: Servi
         Spark.exception(
                 Exception::class.java,
                 SparkExceptionHandler())
+    }
+
+    private fun sslRedirect(request: Request?, response: Response?) {
+        val url: String = request?.url() ?: ""
+        if (configuration.sslRedirectEnabled() && url.startsWith("http://")) {
+            logger.info("redirecting $url to https")
+            val split = url.split("http://")
+            response?.redirect("https://${split[1]}")
+        }
     }
 
     private fun setCorsHeaderOnResponse(response: Response?) {
