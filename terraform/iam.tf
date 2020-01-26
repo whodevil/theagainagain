@@ -4,7 +4,7 @@ resource "aws_iam_user" "theagainagain" {
 
 resource "aws_iam_user_policy" "lb_ro" {
   name = "test"
-  user = "${aws_iam_user.theagainagain.name}"
+  user = aws_iam_user.theagainagain.name
 
   policy = <<EOF
 {
@@ -34,4 +34,6 @@ resource "aws_iam_user_policy" "lb_ro" {
   ]
 }
 EOF
+
 }
+

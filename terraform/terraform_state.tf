@@ -8,9 +8,10 @@ terraform {
 
 data "terraform_remote_state" "otc" {
   backend = "s3"
-  config {
+  config = {
     bucket = "otc-tf"
     key    = "theagainagain/terraform.tfstate"
     region = "us-west-2"
   }
 }
+
