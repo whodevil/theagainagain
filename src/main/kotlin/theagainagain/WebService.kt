@@ -9,10 +9,10 @@ import mu.KotlinLogging
 import spark.Request
 import spark.Route
 import spark.Spark
+
 private val logger = KotlinLogging.logger {}
 
-
-class WebService @Inject constructor(private val webServiceInitializer: WebServiceInitializer): AbstractIdleService() {
+class WebService @Inject constructor(private val webServiceInitializer: WebServiceInitializer) : AbstractIdleService() {
     override fun startUp() {
         logger.info("web service starting")
         webServiceInitializer.initialize(setUpEndpoints)
@@ -26,6 +26,11 @@ class WebService @Inject constructor(private val webServiceInitializer: WebServi
     val setUpEndpoints = Runnable {
         logger.info("setting up endpoints")
         Spark.get("/", MediaType.JSON_UTF_8.toString(), root)
+        Spark.get("/webhook/github", MediaType.JSON_UTF_8.toString(), githubWebHook)
+    }
+
+    private val githubWebHook = Route { request: Request, _ ->
+        logger.info("handling webhook github.")
     }
 
     private val root = Route { request: Request, _ ->
