@@ -32,7 +32,11 @@ fun main(args: Array<String>) {
 
 fun signalHandler(serviceManager: ServiceManager) {
     Signal.handle(Signal("INT")) {
-        logger.info("shutting down")
+        logger.info("shutting down SIGINT")
+        serviceManager.stopAsync()
+    }
+    Signal.handle(Signal("TERM")) {
+        logger.info("shutting down SIGTERM")
         serviceManager.stopAsync()
     }
 }
