@@ -31,6 +31,7 @@ class WebService @Inject constructor(private val webServiceInitializer: WebServi
 
     private val githubWebHook = Route { request: Request, _ ->
         logger.info("handling webhook github.")
+        "OK"
     }
 
     private val root = Route { request: Request, _ ->
