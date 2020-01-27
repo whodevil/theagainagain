@@ -30,4 +30,17 @@ class EnvironmentHelper @Inject constructor(val env: EnvironmentProvider) {
             value.toBoolean()
         }
     }
+
+    fun getKeys(): String {
+        val stringBuilder: StringBuilder = StringBuilder("[")
+        env.getKeys().forEach{
+            stringBuilder
+                    .append(it)
+                    .append(",")
+        }
+        return stringBuilder
+                .deleteCharAt(stringBuilder.lastIndex)
+                .append("]")
+                .toString()
+    }
 }
