@@ -32,8 +32,16 @@ application {
     mainClassName = "theagainagain.MainKt"
 }
 
+tasks.register("stageVersion") {
+    dependsOn("installDist")
+    val version: String = System.getenv("SOURCE_VERSION") ?: "r999"
+    doLast {
+        File("$buildDir", "version").writeText(version)
+    }
+}
+
 tasks.register("stage") {
-    dependsOn("test", "installDist")
+    dependsOn("test", "stageVersion")
 }
 
 allOpen {

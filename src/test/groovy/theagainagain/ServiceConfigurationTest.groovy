@@ -23,7 +23,7 @@ class ServiceConfigurationTest extends Specification {
     def "test getPort returns default"() {
         given:
         environmentProvider.get(PORT) >> ""
-        def configuration = new ServiceConfiguration(environmentHelper, mockLogger)
+        def configuration = new ServiceConfiguration(environmentHelper, mockLogger, "123")
 
         when:
         def port = configuration.getPort()
@@ -35,7 +35,7 @@ class ServiceConfigurationTest extends Specification {
     def "test getPort returns non-default"() {
         given:
         environmentProvider.get(PORT) >> "${PORT_DEFAULT + 1}"
-        def configuration = new ServiceConfiguration(environmentHelper, mockLogger)
+        def configuration = new ServiceConfiguration(environmentHelper, mockLogger, "123")
 
         when:
         def port = configuration.getPort()
@@ -47,7 +47,7 @@ class ServiceConfigurationTest extends Specification {
     def "test redirectToSsl returns default value"() {
         given:
         environmentProvider.get(ENABLE_SSL_REDIRECT) >> ""
-        def configuration = new ServiceConfiguration(environmentHelper, mockLogger)
+        def configuration = new ServiceConfiguration(environmentHelper, mockLogger, "123")
 
         when:
         def enabled = configuration.sslRedirectEnabled()
@@ -59,7 +59,7 @@ class ServiceConfigurationTest extends Specification {
     def "test redirectToSsl can be enabled"() {
         given:
         environmentProvider.get(ENABLE_SSL_REDIRECT) >> "true"
-        def configuration = new ServiceConfiguration(environmentHelper, mockLogger)
+        def configuration = new ServiceConfiguration(environmentHelper, mockLogger, "123")
 
         when:
         def enabled = configuration.sslRedirectEnabled()
@@ -71,12 +71,24 @@ class ServiceConfigurationTest extends Specification {
     def "test ServiceConfiguration log environment logs expected keys"() {
         given:
         environmentProvider.keys >> ["some", "keys"]
-        def configuration = new ServiceConfiguration(environmentHelper, mockLogger)
+        def configuration = new ServiceConfiguration(environmentHelper, mockLogger, "123")
 
         when:
         configuration.logConfig()
 
         then:
         1 * mockLogger.info("ENVIRONMENT KEYS: [some,keys]")
+    }
+
+    def "test version returned"() {
+        given:
+        def version = "321"
+        def configuration = new ServiceConfiguration(environmentHelper, mockLogger, version)
+
+        when:
+        def observedVersion = configuration.getVersion()
+
+        then:
+        version == observedVersion
     }
 }

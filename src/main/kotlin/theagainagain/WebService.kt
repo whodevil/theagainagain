@@ -9,10 +9,13 @@ import mu.KotlinLogging
 import spark.Request
 import spark.Route
 import spark.Spark
+import theagainagain.configuration.ServiceConfiguration
 
 private val logger = KotlinLogging.logger {}
 
-class WebService @Inject constructor(private val webServiceInitializer: WebServiceInitializer) : AbstractIdleService() {
+class WebService @Inject constructor(
+        private val webServiceInitializer: WebServiceInitializer,
+        private val configuration: ServiceConfiguration) : AbstractIdleService() {
     override fun startUp() {
         logger.info("web service starting")
         webServiceInitializer.initialize(setUpEndpoints)
@@ -47,6 +50,15 @@ class WebService @Inject constructor(private val webServiceInitializer: WebServi
                                     background-color: #ff0000;
                                     color: #ccc;
                                 }
+                                .footer {
+                                  position: fixed;
+                                  left: 0;
+                                  bottom: 0;
+                                  width: 100%;
+                                  background-color: red;
+                                  color: white;
+                                  text-align: center;
+                                }
                             """)
                         }
                     }
@@ -56,6 +68,11 @@ class WebService @Inject constructor(private val webServiceInitializer: WebServi
                         attributes["style"] = "background: black; font-size: 40em; text-align: center"
                         span {
                             +"bro"
+                        }
+                    }
+                    div(classes = "footer") {
+                        p {
+                            +configuration.getVersion()
                         }
                     }
                 }
