@@ -4,8 +4,12 @@ import com.google.inject.Inject
 import com.google.inject.name.Named
 import org.slf4j.Logger
 import theagainagain.ServiceModule.Companion.SERVICE_CONFIG_LOGGER
+import theagainagain.ServiceModule.Companion.SERVICE_VERSION
 
-class ServiceConfiguration @Inject constructor(private val env: EnvironmentHelper, @Named(SERVICE_CONFIG_LOGGER) val logger: Logger) {
+class ServiceConfiguration
+@Inject constructor(private val env: EnvironmentHelper,
+                    @Named(SERVICE_CONFIG_LOGGER) private val logger: Logger,
+                    @Named(SERVICE_VERSION) private val serviceVersion: String) {
     companion object {
         const val PORT: String = "PORT"
         const val PORT_DEFAULT: Int = 5000
@@ -19,6 +23,10 @@ class ServiceConfiguration @Inject constructor(private val env: EnvironmentHelpe
 
     fun sslRedirectEnabled(): Boolean {
         return env.get(ENABLE_SSL_REDIRECT, ENABLE_SSL_REDIRECT_DEFAULT)
+    }
+
+    fun getVersion(): String {
+        return serviceVersion
     }
 
     fun logConfig() {
