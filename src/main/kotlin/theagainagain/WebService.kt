@@ -45,7 +45,7 @@ class WebService @Inject constructor(
                 head {
                     meta {
                         attributes["property"]="og:title"
-                        attributes["content"]="Off The Cob - The art of the Again Again"
+                        attributes["content"]="Off The Cob - The Art of the Again Again"
                     }
                     meta {
                         attributes["property"]="og:type"
