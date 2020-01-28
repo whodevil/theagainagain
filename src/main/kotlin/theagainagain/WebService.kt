@@ -53,7 +53,7 @@ class WebService @Inject constructor(
                     }
                     meta {
                         attributes["property"]="og:image"
-                        attributes["content"]="https://www.offthecob.info/R001072.jpg"
+                        attributes["content"]="${request.url()}R001072.jpg"
                     }
                     style {
                         unsafe {
