@@ -43,6 +43,18 @@ class WebService @Inject constructor(
             appendln("<!DOCTYPE html>")
             appendHTML().html {
                 head {
+                    meta {
+                        attributes["property"]="og:title"
+                        attributes["content"]="Off The Cob - The Art of the Again Again"
+                    }
+                    meta {
+                        attributes["property"]="og:type"
+                        attributes["content"]="website"
+                    }
+                    meta {
+                        attributes["property"]="og:image"
+                        attributes["content"]="${request.url()}R001072.jpg"
+                    }
                     style {
                         unsafe {
                             raw("""

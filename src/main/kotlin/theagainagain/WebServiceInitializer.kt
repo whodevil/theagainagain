@@ -15,18 +15,25 @@ private val logger = KotlinLogging.logger {}
 class WebServiceInitializer @Inject constructor(private val configuration: ServiceConfiguration) {
     fun initialize(setupEndpoints: Runnable) {
         Spark.port(configuration.getPort())
+
+        // Static files must come before the endpoints
+        Spark.staticFiles.location("/public")
         setupEndpoints.run()
 
+        hardening()
+        Spark.awaitInitialization()
+        Spark.exception(
+                Exception::class.java,
+                SparkExceptionHandler())
+    }
+
+    private fun hardening() {
         setupCorsForOptionsHttpMethod()
         Spark.before(Filter { request: Request?, response: Response? ->
             sslRedirect(request, response)
             setCorsHeaderOnResponse(response)
             applyCsrfProtection(request)
         })
-        Spark.awaitInitialization()
-        Spark.exception(
-                Exception::class.java,
-                SparkExceptionHandler())
     }
 
     private fun sslRedirect(request: Request?, response: Response?) {
