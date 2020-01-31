@@ -17,7 +17,7 @@ class WebServiceInitializer @Inject constructor(private val configuration: Servi
         Spark.port(configuration.getPort())
 
         // Static files must come before the endpoints
-        Spark.staticFiles.location("/public")
+        Spark.staticFiles.externalLocation("${System.getProperties().getProperty("user.dir")}/ui/build");
         setupEndpoints.run()
 
         hardening()
