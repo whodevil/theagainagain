@@ -20,12 +20,16 @@ jobs:
     - name: yarn build
       run: cd ui && yarn build
     - name: archive name
-      run: echo "##[set-output name=name;]$(echo theagainagain-${GITHUB_REF#refs/heads/}.tar.gz)"
+      run: echo "##[set-output name=name;]$(echo theagainagain-${GITHUB_SHA::8}.tar.gz)"
       id: archive_name
     - name: tar ui
       run: mkdir build && tar -czvf build/${{steps.archive_name.outputs.name}} ui/build
+    - name: upload pin file
+        run: echo "${{steps.archive_name.outputs.name}}" > build/${GITHUB_REF#refs/heads/}
     - name: upload to s3
-      run: aws s3 cp build/${{steps.archive_name.outputs.name}} s3://theagainagain-assets/${{steps.archive_name.outputs.name}}
+      run: |
+        aws s3 cp build/${{steps.archive_name.outputs.name}} s3://theagainagain-assets/${{steps.archive_name.outputs.name}}
+        aws s3 cp build/${GITHUB_REF#refs/heads/} s3://theagainagain-assets/${GITHUB_REF#refs/heads/}
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
