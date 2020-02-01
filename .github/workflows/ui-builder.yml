@@ -8,11 +8,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: docker://ubuntu:latest
-    - name: install pre-reqs
+    - name: 'Checkout'
+      uses: actions/checkout@master
+    - name: 'install pre-reqs'
       run: |
         sudo apt-get update
         sudo apt-get install python python-pip npm yarn -y
         sudo pip install awscli
-    - name: ls
-      run: ls
+    - name: 'yarn build'
+      run: cd ui && yarn build
