@@ -15,5 +15,7 @@ jobs:
         sudo apt-get update
         sudo apt-get install python python-pip npm yarn -y
         sudo pip install awscli
+    - name: 'yarn install'
+      run: cd ui && yarn install
     - name: 'yarn build'
       run: cd ui && yarn build
