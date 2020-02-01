@@ -20,7 +20,13 @@ jobs:
     - name: yarn build
       run: cd ui && yarn build
     - name: archive name
-      run: echo "##[set-output name=name;]$(echo build/theagainagain-${GITHUB_REF#refs/heads/}.tar.gz)"
+      run: echo "##[set-output name=name;]$(echo theagainagain-${GITHUB_REF#refs/heads/}.tar.gz)"
       id: archive_name
     - name: tar ui
-      run: mkdir build && tar -czvf ${{steps.archive_name.outputs.name}} ui/build
+      run: mkdir build && tar -czvf build/${{steps.archive_name.outputs.name}} ui/build
+    - name: upload to s3
+      run: aws s3 cp build/${{steps.archive_name.outputs.name}} s3://theagainagain-assets/${{steps.archive_name.outputs.name}}
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_REGION: 'us-west-2'
