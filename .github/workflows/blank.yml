@@ -1,0 +1,17 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: install pre-reqs
+      run: |
+        apt install python python-pip npm yarn -y
+        pip install awscli
+    - name: ls
+      run: ls
