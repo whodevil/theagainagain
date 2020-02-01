@@ -32,16 +32,33 @@ application {
     mainClassName = "theagainagain.MainKt"
 }
 
-tasks.register("stageVersion") {
-    dependsOn("installDist")
-    val version: String = System.getenv("SOURCE_VERSION") ?: "r999"
-    doLast {
-        File("$buildDir", "version").writeText(version)
-    }
-}
+tasks {
 
-tasks.register("stage") {
-    dependsOn("test", "stageVersion")
+    register<Exec>("npmClean") {
+        workingDir("ui")
+        commandLine("rm", "-r", "build")
+    }
+
+    register<Exec>("npmBuild"){
+        workingDir("ui")
+        commandLine("yarn", "build")
+    }
+
+    register("stageVersion") {
+        dependsOn("installDist")
+        val version: String = System.getenv("SOURCE_VERSION") ?: "r999"
+        doLast {
+            File("$buildDir", "version").writeText(version)
+        }
+    }
+
+    register("stage") {
+        dependsOn("test", "stageVersion", "npmBuild")
+    }
+
+    named("clean") {
+        dependsOn("npmClean")
+    }
 }
 
 allOpen {

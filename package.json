@@ -1,4 +1,0 @@
-"scripts": {
-  "build": "cd ui && yarn build"
-}
-
