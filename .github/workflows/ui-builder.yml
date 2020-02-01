@@ -19,5 +19,8 @@ jobs:
       run: cd ui && yarn install
     - name: yarn build
       run: cd ui && yarn build
+    - name: archive name
+      run: echo "##[set-output name=name;]$(echo build/theagainagain-${GITHUB_REF#refs/heads/}.tar.gz)"
+      id: archive_name
     - name: tar ui
-      run: mkdir build && tar -czvf build/theagainagain-$(git rev-parse --short "$GITHUB_SHA").tar.gz ui/build
+      run: mkdir build && tar -czvf ${{steps.archive_name.outputs.name}} ui/build
