@@ -8,14 +8,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: 'Checkout'
+    - name: Checkout
       uses: actions/checkout@master
-    - name: 'install pre-reqs'
+    - name: install pre-reqs
       run: |
         sudo apt-get update
         sudo apt-get install python python-pip npm yarn -y
         sudo pip install awscli
-    - name: 'yarn install'
+    - name: yarn install
       run: cd ui && yarn install
-    - name: 'yarn build'
+    - name: yarn build
       run: cd ui && yarn build
+    - name: tar ui
+      run: mkdir build && tar -czvf build/theagainagain-$(git rev-parse --short "$GITHUB_SHA").tar.gz ui/build
