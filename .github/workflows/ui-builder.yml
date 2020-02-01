@@ -11,8 +11,8 @@ jobs:
     - uses: docker://ubuntu:latest
     - name: install pre-reqs
       run: |
-        apt-get update
-        apt-get install python python-pip npm yarn -y
-        pip install awscli
+        sudo apt-get update
+        sudo apt-get install python python-pip npm yarn -y
+        sudo pip install awscli
     - name: ls
       run: ls
