@@ -126,7 +126,7 @@ class ServiceConfigurationTest extends Specification {
         def observed = configuration.getUiLocation()
 
         then:
-        observed == UI_DOWNLOADED_LOCATION
+        observed == PROD_UI_LOCATION
     }
 
     def "test get ui location when locally built"() {
@@ -139,6 +139,6 @@ class ServiceConfigurationTest extends Specification {
         def observed = configuration.getUiLocation()
 
         then:
-        observed == UI_LOCALLY_BUILT_LOCATION
+        observed == LOCALLY_BUILT_UI_LOCATION
     }
 }
