@@ -94,7 +94,7 @@ class ServiceConfigurationTest extends Specification {
 
     def "test should fetch UI when aws set"() {
         given:
-        environmentProvider.keys >> [AWS_ACCESS_KEY_ID]
+        environmentProvider.keys >> [PROD_UI]
         def configuration = new ServiceConfiguration(environmentHelper, mockLogger, "123")
 
         when:
@@ -119,7 +119,7 @@ class ServiceConfigurationTest extends Specification {
     def "test get ui location when should fetch UI"() {
         given:
         environmentProvider.getProperty(USER_DIR) >> ""
-        environmentProvider.keys >> [AWS_ACCESS_KEY_ID]
+        environmentProvider.keys >> [PROD_UI]
         def configuration = new ServiceConfiguration(environmentHelper, mockLogger, "123")
 
         when:

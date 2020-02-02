@@ -17,7 +17,7 @@ class ServiceConfiguration
         const val PORT_DEFAULT: Int = 8080
         const val ENABLE_SSL_REDIRECT: String = "ENABLE_SSL_REDIRECT"
         const val ENABLE_SSL_REDIRECT_DEFAULT: Boolean = false
-        const val AWS_ACCESS_KEY_ID: String = "AWS_ACCESS_KEY_ID"
+        const val PROD_UI: String = "PROD_UI"
         const val PROD_UI_LOCATION: String = "/ui"
         const val LOCALLY_BUILT_UI_LOCATION: String = "/ui/build"
         const val USER_DIR: String = "user.dir"
@@ -40,7 +40,7 @@ class ServiceConfiguration
     }
 
     fun shouldFetchUi(): Boolean {
-        return env.getKeys().contains(AWS_ACCESS_KEY_ID)
+        return env.getKeys().contains(PROD_UI)
     }
 
     fun getUiLocation(): String {
