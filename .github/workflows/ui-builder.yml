@@ -28,7 +28,7 @@ jobs:
     - name: tar ui
       run: mkdir build && tar -czvf build/${{steps.archive_name.outputs.name}} ui/build
     - name: upload pin file
-        run: echo "${{steps.archive_name.outputs.name}}" > build/${{steps.branch_name.outputs.name}}
+      run: echo "${{steps.archive_name.outputs.name}}" > build/${{steps.branch_name.outputs.name}}
     - name: upload to s3
       run: |
         aws s3 cp build/${{steps.archive_name.outputs.name}} s3://theagainagain-assets/${{steps.archive_name.outputs.name}}
