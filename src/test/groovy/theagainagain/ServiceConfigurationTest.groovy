@@ -91,4 +91,54 @@ class ServiceConfigurationTest extends Specification {
         then:
         version == observedVersion
     }
+
+    def "test should fetch UI when aws set"() {
+        given:
+        environmentProvider.keys >> [AWS_ACCESS_KEY_ID]
+        def configuration = new ServiceConfiguration(environmentHelper, mockLogger, "123")
+
+        when:
+        def observed = configuration.shouldFetchUi()
+
+        then:
+        observed
+    }
+
+    def "test should fetch UI is not set when aws creds not present"() {
+        given:
+        environmentProvider.keys >> []
+        def configuration = new ServiceConfiguration(environmentHelper, mockLogger, "123")
+
+        when:
+        def observed = configuration.shouldFetchUi()
+
+        then:
+        !observed
+    }
+
+    def "test get ui location when should fetch UI"() {
+        given:
+        environmentProvider.getProperty(USER_DIR) >> ""
+        environmentProvider.keys >> [AWS_ACCESS_KEY_ID]
+        def configuration = new ServiceConfiguration(environmentHelper, mockLogger, "123")
+
+        when:
+        def observed = configuration.getUiLocation()
+
+        then:
+        observed == UI_DOWNLOADED_LOCATION
+    }
+
+    def "test get ui location when locally built"() {
+        given:
+        environmentProvider.getProperty(USER_DIR) >> ""
+        environmentProvider.keys >> []
+        def configuration = new ServiceConfiguration(environmentHelper, mockLogger, "123")
+
+        when:
+        def observed = configuration.getUiLocation()
+
+        then:
+        observed == UI_DOWNLOADED_LOCATION
+    }
 }

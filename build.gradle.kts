@@ -26,6 +26,7 @@ dependencies {
 
     testImplementation("org.spockframework:spock-core:1.0-groovy-2.4")
     testImplementation("org.codehaus.groovy:groovy-all:2.4.12")
+    testImplementation("org.objenesis:objenesis:+")
 }
 
 application {
@@ -33,17 +34,6 @@ application {
 }
 
 tasks {
-
-    register<Exec>("npmClean") {
-        workingDir("ui")
-        commandLine("rm", "-r", "build")
-    }
-
-    register<Exec>("npmBuild"){
-        workingDir("ui")
-        commandLine("yarn", "build")
-    }
-
     register("stageVersion") {
         dependsOn("installDist")
         val version: String = System.getenv("SOURCE_VERSION") ?: "r999"
@@ -53,11 +43,11 @@ tasks {
     }
 
     register("stage") {
-        dependsOn("test", "stageVersion", "npmBuild")
+        dependsOn("test", "stageVersion")
     }
 
-    named("clean") {
-        dependsOn("npmClean")
+    withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+        kotlinOptions.jvmTarget = "1.8"
     }
 }
 

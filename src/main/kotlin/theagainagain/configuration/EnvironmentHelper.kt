@@ -43,4 +43,8 @@ class EnvironmentHelper @Inject constructor(val env: EnvironmentProvider) {
                 .append("]")
                 .toString()
     }
+
+    fun getProperty(propertyName: String): String {
+        return env.getProperty(propertyName)
+    }
 }

@@ -20,7 +20,7 @@ jobs:
     - name: yarn build
       run: cd ui && yarn build
     - name: archive name
-      run: echo "##[set-output name=name;]$(echo theagainagain-${GITHUB_SHA::8}.tar.gz)"
+      run: echo "##[set-output name=name;]$(echo theagainagain-${GITHUB_SHA}.tar.gz)"
       id: archive_name
     - name: branch name
       run: echo "##[set-output name=name;]$(echo ${GITHUB_REF#refs/heads/})"
