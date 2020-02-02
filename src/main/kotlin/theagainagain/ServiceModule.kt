@@ -23,7 +23,7 @@ class ServiceModule : KotlinModule() {
 
 class ServiceConfigurationLoggerProvider: Provider<Logger> {
     override fun get(): Logger {
-        return LoggerFactory.getLogger(ServiceConfiguration.javaClass)
+        return LoggerFactory.getLogger(ServiceConfiguration::class.java)
     }
 }
 

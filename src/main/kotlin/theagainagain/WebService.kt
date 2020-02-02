@@ -28,68 +28,11 @@ class WebService @Inject constructor(
 
     val setUpEndpoints = Runnable {
         logger.info("setting up endpoints")
-        Spark.get("/", MediaType.JSON_UTF_8.toString(), root)
         Spark.get("/webhook/github", MediaType.JSON_UTF_8.toString(), githubWebHook)
     }
 
     private val githubWebHook = Route { request: Request, _ ->
         logger.info("handling webhook github.")
         "OK"
-    }
-
-    private val root = Route { request: Request, _ ->
-        logger.info("user agent: {}", request.userAgent())
-        buildString {
-            appendln("<!DOCTYPE html>")
-            appendHTML().html {
-                head {
-                    meta {
-                        attributes["property"]="og:title"
-                        attributes["content"]="Off The Cob - The Art of the Again Again"
-                    }
-                    meta {
-                        attributes["property"]="og:type"
-                        attributes["content"]="website"
-                    }
-                    meta {
-                        attributes["property"]="og:image"
-                        attributes["content"]="${request.url()}R001072.jpg"
-                    }
-                    style {
-                        unsafe {
-                            raw("""
-                                body {
-                                    background-color: #ff0000;
-                                    color: #ccc;
-                                }
-                                .footer {
-                                  position: fixed;
-                                  left: 0;
-                                  bottom: 0;
-                                  width: 100%;
-                                  background-color: red;
-                                  color: white;
-                                  text-align: center;
-                                }
-                            """)
-                        }
-                    }
-                }
-                body {
-                    div {
-                        attributes["style"] = "background: black; font-size: 40em; text-align: center"
-                        span {
-                            +"bro"
-                        }
-                    }
-                    div(classes = "footer") {
-                        p {
-                            +configuration.getVersion()
-                        }
-                    }
-                }
-            }
-            appendln()
-        }
     }
 }

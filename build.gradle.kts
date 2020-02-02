@@ -26,22 +26,29 @@ dependencies {
 
     testImplementation("org.spockframework:spock-core:1.0-groovy-2.4")
     testImplementation("org.codehaus.groovy:groovy-all:2.4.12")
+    testImplementation("org.objenesis:objenesis:+")
 }
 
 application {
     mainClassName = "theagainagain.MainKt"
 }
 
-tasks.register("stageVersion") {
-    dependsOn("installDist")
-    val version: String = System.getenv("SOURCE_VERSION") ?: "r999"
-    doLast {
-        File("$buildDir", "version").writeText(version)
+tasks {
+    register("stageVersion") {
+        dependsOn("installDist")
+        val version: String = System.getenv("SOURCE_VERSION") ?: "r999"
+        doLast {
+            File("$buildDir", "version").writeText(version)
+        }
     }
-}
 
-tasks.register("stage") {
-    dependsOn("test", "stageVersion")
+    register("stage") {
+        dependsOn("test", "stageVersion")
+    }
+
+    withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+        kotlinOptions.jvmTarget = "1.8"
+    }
 }
 
 allOpen {

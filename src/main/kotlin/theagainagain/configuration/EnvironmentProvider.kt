@@ -11,4 +11,8 @@ class EnvironmentProvider {
     fun getKeys(): List<String> {
         return System.getenv().keys.toMutableList()
     }
+
+    fun getProperty(propertyName: String): String {
+        return System.getProperties().getProperty(propertyName)
+    }
 }
