@@ -18,8 +18,8 @@ class ServiceConfiguration
         const val ENABLE_SSL_REDIRECT: String = "ENABLE_SSL_REDIRECT"
         const val ENABLE_SSL_REDIRECT_DEFAULT: Boolean = false
         const val AWS_ACCESS_KEY_ID: String = "AWS_ACCESS_KEY_ID"
-        const val UI_DOWNLOADED_LOCATION: String = "/build/ui/build"
-        const val UI_LOCALLY_BUILT_LOCATION: String = "/ui/build"
+        const val PROD_UI_LOCATION: String = "/ui"
+        const val LOCALLY_BUILT_UI_LOCATION: String = "/ui/build"
         const val USER_DIR: String = "user.dir"
     }
 
@@ -45,9 +45,9 @@ class ServiceConfiguration
 
     fun getUiLocation(): String {
         return if(shouldFetchUi()){
-            "${env.getProperty(USER_DIR)}$UI_DOWNLOADED_LOCATION"
+            "${env.getProperty(USER_DIR)}$PROD_UI_LOCATION"
         } else {
-            "${env.getProperty(USER_DIR)}$UI_LOCALLY_BUILT_LOCATION"
+            "${env.getProperty(USER_DIR)}$LOCALLY_BUILT_UI_LOCATION"
         }
     }
 }
