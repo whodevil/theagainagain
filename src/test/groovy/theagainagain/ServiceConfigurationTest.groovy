@@ -139,6 +139,6 @@ class ServiceConfigurationTest extends Specification {
         def observed = configuration.getUiLocation()
 
         then:
-        observed == UI_DOWNLOADED_LOCATION
+        observed == UI_LOCALLY_BUILT_LOCATION
     }
 }
