@@ -16,4 +16,5 @@ WORKDIR /code/ui
 COPY --from=0 /code/ui/build .
 WORKDIR /code
 COPY --from=1 /code/build/install/theagainagain .
+COPY build/version .
 CMD /code/bin/theagainagain

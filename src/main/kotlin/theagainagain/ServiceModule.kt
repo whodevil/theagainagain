@@ -42,7 +42,7 @@ class ServiceConfigurationLoggerProvider: Provider<Logger> {
 class ServiceVersionProvider: Provider<String> {
     override fun get(): String {
         return try {
-            File("build", "version").readText()
+            File("version").readText()
         } catch (e: Exception) {
             "r888"
         }
