@@ -6,6 +6,8 @@ RUN yarn install && yarn build
 
 FROM openjdk:11-jdk
 RUN mkdir -p /code
+ARG SOURCE_VERSION
+ENV SOURCE_VERSION=$SOURCE_VERSION
 ADD . /code
 WORKDIR /code
 RUN ./gradlew stage
@@ -16,5 +18,5 @@ WORKDIR /code/ui
 COPY --from=0 /code/ui/build .
 WORKDIR /code
 COPY --from=1 /code/build/install/theagainagain .
-COPY build/version .
+COPY --from=1 /code/build/version .
 CMD /code/bin/theagainagain
