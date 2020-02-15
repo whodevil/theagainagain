@@ -31,7 +31,7 @@ class WebService @Inject constructor(
     val setUpEndpoints = Runnable {
         logger.info("setting up endpoints")
         Spark.get("/webhook/github", MediaType.JSON_UTF_8.toString(), githubWebHook)
-        Spark.post("/graphql", MediaType.JSON_UTF_8.toString(), graphql)
+        Spark.post("/graphql", graphql)
     }
 
     private val githubWebHook = Route { request: Request, _ ->

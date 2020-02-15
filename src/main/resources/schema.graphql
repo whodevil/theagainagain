@@ -2,6 +2,20 @@ type ServiceDefinition {
     version: String!
 }
 
+type Image {
+    id: String
+    url: String
+    filename: String!
+    mimetype: String!
+    encoding: String!
+}
+
 type Query {
     serviceDefinition: ServiceDefinition
+}
+
+scalar Upload
+
+type Mutation {
+    imageUpload(file: Upload!): Image!
 }

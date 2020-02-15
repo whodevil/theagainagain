@@ -9,6 +9,7 @@ import graphql.schema.idl.RuntimeWiring.newRuntimeWiring
 import graphql.schema.idl.SchemaGenerator
 import graphql.schema.idl.TypeDefinitionRegistry
 import graphql.schema.idl.TypeRuntimeWiring
+import graphql.servlet.apollo.ApolloScalars
 
 class GraphQlHandler @Inject constructor(
         typeDefinitionRegistry: TypeDefinitionRegistry,
@@ -23,7 +24,9 @@ class GraphQlHandler @Inject constructor(
         return newRuntimeWiring()
                 .type("Query") { builder: TypeRuntimeWiring.Builder ->
                     builder.dataFetcher("serviceDefinition", dataFetcherIndex.serviceDefinition())
-                }
+                }.type("Mutation") {builder: TypeRuntimeWiring.Builder ->
+                    builder.dataFetcher("imageUpload", dataFetcherIndex.imageUpload())
+                }.scalar(ApolloScalars.Upload)
                 .build()
     }
 

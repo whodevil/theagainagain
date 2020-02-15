@@ -7,6 +7,7 @@ import Home from './Home'
 import Graphql from './Graphql'
 
 import ApolloClient from 'apollo-boost'
+import FileUploader from './FileUploader'
 
 const client = new ApolloClient({
   uri: '/graphql',
@@ -26,6 +27,7 @@ const App: React.FC = () => {
 
         <div>
           <Route path="/" exact component={Home}/>
+          <Route path="/fileupload" component={FileUploader}/>
           <Route path="/graphiql" component={Graphql}/>
         </div>
 
