@@ -15,8 +15,7 @@ class DataFetcherIndex @Inject constructor(private val configuration: ServiceCon
 
     fun imageUpload(): DataFetcher<Image> {
         return DataFetcher {
-            val file: List<Part> = it.arguments["file"] as List<Part>
-            Image("file", "", "", "", "")
+            Image("file", "")
         }
     }
 }
@@ -24,11 +23,5 @@ class DataFetcherIndex @Inject constructor(private val configuration: ServiceCon
 data class ServiceDefinition constructor(var version: String)
 data class Image(
         val id: String,
-        val url: String,
-        val filename: String,
-        val mimetype: String,
-        val encoding: String
-) {
-    constructor(filename: String, mimetype: String, encoding: String) :
-            this("", "", filename, mimetype, encoding)
-}
+        val url: String
+)

@@ -6,18 +6,23 @@ import './App.css'
 import Home from './Home'
 import Graphql from './Graphql'
 
-import ApolloClient from 'apollo-boost'
+import ApolloClient from 'apollo-client'
+import { InMemoryCache } from 'apollo-cache-inmemory'
+import { createUploadLink } from 'apollo-upload-client'
 import FileUploader from './FileUploader'
 
-const client = new ApolloClient({
+const apolloCache = new InMemoryCache()
+const uploadLink = createUploadLink({
   uri: '/graphql',
-  request: operation => {
-    operation.setContext({
-      headers: {
-        'X-Requested-With': 'apollo',
-      },
-    })
-  },
+  headers: {
+    'X-Requested-With': 'apollo',
+    'keep-alive': 'true'
+  }
+})
+
+const client = new ApolloClient({
+  cache: apolloCache,
+  link: uploadLink
 })
 
 const App: React.FC = () => {
