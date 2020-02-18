@@ -42,7 +42,7 @@ const Home: React.FC = () => {
         <span>bro</span>
       </header>
       <footer>
-        <span> <Version /> <Link to="/graphiql">Graphiql</Link></span>
+        <span> <Version /> <Link to="/graphiql">Graphiql</Link>  <Link to="/fileupload">upload</Link></span>
       </footer>
     </div>
   )

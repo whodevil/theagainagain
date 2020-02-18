@@ -7,6 +7,8 @@ import com.google.inject.name.Names
 import dev.misfitlabs.kotlinguice4.KotlinModule
 import graphql.schema.idl.SchemaParser
 import graphql.schema.idl.TypeDefinitionRegistry
+import org.apache.commons.fileupload.disk.DiskFileItemFactory
+import org.apache.commons.fileupload.servlet.ServletFileUpload
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import theagainagain.configuration.ServiceConfiguration
@@ -30,6 +32,15 @@ class ServiceModule : KotlinModule() {
         val schemaParser = SchemaParser()
         val schema: String = ServiceModule::class.java.getResource("/schema.graphql").readText()
         return schemaParser.parse(schema)
+    }
+
+    @Provides
+    @Singleton
+    fun servletFileUpload(): ServletFileUpload {
+        val upload = createTempDir()
+        val factory = DiskFileItemFactory()
+        factory.repository = upload
+        return ServletFileUpload(factory)
     }
 }
 

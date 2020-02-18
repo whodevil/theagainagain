@@ -6,17 +6,23 @@ import './App.css'
 import Home from './Home'
 import Graphql from './Graphql'
 
-import ApolloClient from 'apollo-boost'
+import ApolloClient from 'apollo-client'
+import { InMemoryCache } from 'apollo-cache-inmemory'
+import { createUploadLink } from 'apollo-upload-client'
+import FileUploader from './FileUploader'
+
+const apolloCache = new InMemoryCache()
+const uploadLink = createUploadLink({
+  uri: '/graphql',
+  headers: {
+    'X-Requested-With': 'apollo',
+    'keep-alive': 'true'
+  }
+})
 
 const client = new ApolloClient({
-  uri: '/graphql',
-  request: operation => {
-    operation.setContext({
-      headers: {
-        'X-Requested-With': 'apollo',
-      },
-    })
-  },
+  cache: apolloCache,
+  link: uploadLink
 })
 
 const App: React.FC = () => {
@@ -26,6 +32,7 @@ const App: React.FC = () => {
 
         <div>
           <Route path="/" exact component={Home}/>
+          <Route path="/fileupload" component={FileUploader}/>
           <Route path="/graphiql" component={Graphql}/>
         </div>
 
