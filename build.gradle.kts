@@ -26,6 +26,7 @@ dependencies {
     implementation("com.beust:klaxon:5.0.1")
     implementation("cglib:cglib:2.2")
     implementation("com.google.code.gson:gson:+")
+    implementation("com.auth0:java-jwt:3.11.0")
 
     testImplementation("org.spockframework:spock-core:1.0-groovy-2.4")
     testImplementation("org.codehaus.groovy:groovy-all:2.4.12")
