@@ -14,7 +14,7 @@ class ServiceConfiguration
                     @Named(SERVICE_VERSION) private val serviceVersion: String) {
     companion object {
         const val PORT: String = "PORT"
-        const val PORT_DEFAULT: Int = 8080
+        const val PORT_DEFAULT: Int = 8081
         const val ENABLE_SSL_REDIRECT: String = "ENABLE_SSL_REDIRECT"
         const val ENABLE_SSL_REDIRECT_DEFAULT: Boolean = false
         const val PROD_UI: String = "PROD_UI"
