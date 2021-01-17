@@ -5,6 +5,10 @@ plugins {
     groovy
 }
 
+if(File("user.gradle").exists()) {
+    apply(from = "user.gradle")
+}
+
 repositories {
     jcenter()
 }
@@ -34,7 +38,7 @@ dependencies {
 }
 
 application {
-    mainClassName = "theagainagain.MainKt"
+    mainClass.set("theagainagain.MainKt")
 }
 
 tasks {
@@ -52,6 +56,11 @@ tasks {
 
     withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
         kotlinOptions.jvmTarget = "1.8"
+    }
+
+    named<Wrapper>("wrapper") {
+        distributionType = Wrapper.DistributionType.ALL
+        version = 6.8
     }
 }
 

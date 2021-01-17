@@ -6,3 +6,4 @@ build
 
 tf-env.zsh
 /.idea/*
+user.gradle
