@@ -8,16 +8,22 @@ import spark.Filter
 import spark.Request
 import spark.Response
 import spark.Spark
+import theagainagain.auth.JwtUtils
 import theagainagain.configuration.ServiceConfiguration
 
 private val logger = KotlinLogging.logger {}
 
-class WebServiceInitializer @Inject constructor(private val configuration: ServiceConfiguration) {
+class WebServiceInitializer @Inject constructor(private val configuration: ServiceConfiguration, private val jwtUtils: JwtUtils) {
+
+    companion object {
+        const val AUTHORIZATION_HEADER = "Authorization"
+    }
+
     fun initialize(setupEndpoints: Runnable) {
         Spark.port(configuration.getPort())
 
         // Static files must come before the endpoints
-        Spark.staticFiles.externalLocation(configuration.getUiLocation());
+        Spark.staticFiles.externalLocation(configuration.getUiLocation())
         setupEndpoints.run()
 
         hardening()
@@ -33,7 +39,18 @@ class WebServiceInitializer @Inject constructor(private val configuration: Servi
             sslRedirect(request, response)
             setCorsHeaderOnResponse(response)
             applyCsrfProtection(request)
+            validateJwt(request)
         })
+    }
+
+    private fun validateJwt(request: Request?) {
+        var isAuthenticated = false
+        if (request != null) {
+            if(request.headers().contains(AUTHORIZATION_HEADER)) {
+                val authHeader = request.headers(AUTHORIZATION_HEADER)
+                jwtUtils.getIdentity(authHeader)
+            }
+        }
     }
 
     private fun sslRedirect(request: Request?, response: Response?) {
